@@ -43,7 +43,7 @@ public class CivGame extends PApplet {
 		//stroke(0);
 		fill(135, 206, 235);
 		perspective(3.14F/2,15F/9F,1,10000);
-		camera(500,500,500,0,0,0,0,-1,0);
+		camera(500,2000,500,0,0,0,0,-1,0);
 		int widthBlock = 10;
 		int dist = 500;
 		for (int r = 0; r < terrain.length; r++)
