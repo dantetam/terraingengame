@@ -9,13 +9,13 @@ public class RecursiveBlock extends BaseTerrain {
 	public boolean[][] zeroMap;	
 	public long seed;
 	public int expandRatio = 2;
-	
+
 	public RecursiveBlock(long seed)
 	{
 		random = new Random(seed);
 		this.seed = seed;
 	}
-	
+
 	public void rough()
 	{
 		//int first = (int)Math.floor(Math.log(terrain.length)/Math.log(2D));
@@ -234,6 +234,15 @@ public class RecursiveBlock extends BaseTerrain {
 		//System.out.println("-------");
 	}
 	
+	public void startIsland(int x, int y, int z, int posX, int posY, int posZ, int n)
+	{
+		Entity start = new Entity();
+		entities.add(start);
+		start.setPos(posX,posY,posZ);
+		start.setSize(x,y,z);
+		terrain(start,n);
+	}
+
 	public double[][] generate()
 	{
 		System.out.println("Use the overloaded function with arguments");
@@ -252,12 +261,36 @@ public class RecursiveBlock extends BaseTerrain {
 		}
 		entities = null;
 		entities = new ArrayList<Entity>();
+		//TODO: More than one starter block? 
+		//yes.
 		Entity start = new Entity();
 		entities.add(start);
 		start.setPos(0,100,0);
 		start.setSize(100,100,100);
-		//TODO: More than one starter block?
 		terrain(start,3);
+
+		float base = 70;
+		float radius = 70; 
+		float block = 64;
+		for (int i = 0; i < 4; i++) 
+		{
+			for (int j = 0; j < (int)Math.pow(2,i); j++) 
+			{
+				double angle = Math.random()*6.28;
+				System.out.println(angle);
+				if (block/(Math.pow(2,(j-1))) >= 16)
+				{
+					int size = (int)(block/(Math.pow(1.5,j-1)));
+					startIsland(size,size,size,(int)(radius*Math.cos(angle)),0,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
+				}
+				else
+				{
+					continue;
+				}
+			}
+			radius = radius + (float)Math.pow(base,1.3 - i/10);
+		}
+
 		int n = 0;
 		for (int i = 0; i < entities.size(); i++)
 		{
@@ -419,5 +452,5 @@ public class RecursiveBlock extends BaseTerrain {
 
 		public int topFace() {return (int)(posY + sizeY/2);}
 	}
-	
+
 }
