@@ -20,7 +20,7 @@ public class DiamondSquareTest extends PApplet {
 		//ds.diamond(0, 0, 4);
 		//displayTables = ds.dS(0, 0, len, 40, 0.7)
 		ds.seed(870);
-		ds.generate(new double[]{0, 0, len, 40, 0.7});
+		ds.generate(new double[]{0, 0, len, 40, 0.5});
 
 		Data data = new Data(ds.t,30);
 		data.divIndex(0, 0, len);
@@ -128,7 +128,7 @@ public class DiamondSquareTest extends PApplet {
 	{
 		float len = 20; float con = 10;
 		fill(0); stroke(0);
-		for (int r = 0; r < t.length; r++)
+		/*for (int r = 0; r < t.length; r++)
 		{
 			for (int c = 0; c < t.length; c++)
 			{
@@ -159,6 +159,23 @@ public class DiamondSquareTest extends PApplet {
 					else
 						point(r*len, (float)t[r][c]*con, c*len);
 				}
+			}
+		}*/
+		fill(150,225,255);
+		noStroke();
+		lights();
+		for (int r = 0; r < t.length - 1; r++)
+		{
+			for (int c = 0; c < t[0].length - 1; c++)
+			{
+				beginShape(TRIANGLES);
+				vertex(r*len, (float)t[r][c]*con, c*len);
+				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len);
+				vertex(r*len, (float)t[r][c]*con, c*len);
+				vertex((r+1)*len, (float)t[r+1][c]*con, c*len);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len);
+				endShape();
 			}
 		}
 	}

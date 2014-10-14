@@ -272,7 +272,7 @@ public class RecursiveBlock extends BaseTerrain {
 		float base = 70;
 		float radius = 70; 
 		float block = 64;
-		for (int i = 0; i < 2; i++) 
+		for (int i = 0; i < 3; i++) 
 		{
 			for (int j = 0; j < (int)Math.pow(2,i); j++) 
 			{
