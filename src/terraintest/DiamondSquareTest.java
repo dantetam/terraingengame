@@ -1,8 +1,9 @@
 package terraintest;
 
 import java.util.ArrayList;
-import processing.core.PApplet;
 
+import processing.core.PApplet;
+import processing.opengl.PShader;
 import terrain.*;
 
 public class DiamondSquareTest extends PApplet {
@@ -11,10 +12,12 @@ public class DiamondSquareTest extends PApplet {
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
 	public int len = 128;
+	public PShader shader;
 	
 	public void setup()
 	{
 		size(1900,1000,P3D);
+		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
@@ -37,9 +40,10 @@ public class DiamondSquareTest extends PApplet {
 	public int stepSpeed = 1;
 	public void draw()
 	{
+		shader(shader);
 		//perspective((float)Math.PI/4,1.9F,0,1000);
 		camera(zoom,zoom,zoom,0,400,0,0,-1,0);
-		background(255);
+		background(0);
 		displayTable(temp);
 		/*displayTable(displayTables.get(step));
 		step += stepSpeed;
@@ -161,9 +165,12 @@ public class DiamondSquareTest extends PApplet {
 				}
 			}
 		}*/
-		fill(150,225,255);
+		fill(100);
 		noStroke();
-		lights();
+		//lights();
+		float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
+		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
+		directionalLight(10, 10, 10, -dirX, -1, -dirY);
 		for (int r = 0; r < t.length - 1; r++)
 		{
 			for (int c = 0; c < t[0].length - 1; c++)
@@ -177,6 +184,10 @@ public class DiamondSquareTest extends PApplet {
 				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len);
 				endShape();
 			}
+		}
+		if (frameCount % 20 == 0)
+		{
+			//System.out.println(-dirX + " " + -dirY);
 		}
 	}
 
