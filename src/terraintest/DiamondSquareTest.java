@@ -23,7 +23,7 @@ public class DiamondSquareTest extends PApplet {
 		//ds.diamond(0, 0, 4);
 		//displayTables = ds.dS(0, 0, len, 40, 0.7)
 		ds.seed(870);
-		ds.generate(new double[]{0, 0, len, 40, 0.5});
+		ds.generate(new double[]{0, 0, len, 40, 0.6});
 
 		Data data = new Data(ds.t,30);
 		data.divIndex(0, 0, len);
@@ -34,14 +34,15 @@ public class DiamondSquareTest extends PApplet {
 		//System.out.println(ds.t[1][1]);
 		frameRate(40);
 		strokeWeight(3);
+		shader.set("fraction", 2);
 	}
 
 	public int zoom = 1500;
 	public int stepSpeed = 1;
 	public void draw()
 	{
-		shader(shader);
 		//perspective((float)Math.PI/4,1.9F,0,1000);
+		shader(shader);
 		camera(zoom,zoom,zoom,0,400,0,0,-1,0);
 		background(0);
 		displayTable(temp);
@@ -169,7 +170,7 @@ public class DiamondSquareTest extends PApplet {
 		//lights();
 		//float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
 		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
-		directionalLight(200, 200, 200, dirX, -1, 0);
+		directionalLight(20, 20, 20, dirX, -1, 0);
 		//pointLight(255,255,255,0,500,0);
 		for (int r = 0; r < t.length - 1; r++)
 		{
@@ -190,8 +191,13 @@ public class DiamondSquareTest extends PApplet {
 			//System.out.println(-dirX + " " + -dirY);
 		}
 		
-		strokeWeight(5);
 		
+		strokeWeight(5);
+		pushMatrix();
+		translate(1000,500,1000);
+		fill(255);
+		sphere(50);
+		popMatrix();
 	}
 
 	public static class CubicInterpolator {
