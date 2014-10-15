@@ -12,7 +12,7 @@ public class DiamondSquare extends BaseTerrain {
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
 		ds.dS(0, 0, 16, 15, 0.5);
-		
+
 		Data data = new Data(ds.t);
 		data.divIndex(0, 0, 16);
 		//System.out.println(ds.t[1][1]);
@@ -22,7 +22,7 @@ public class DiamondSquare extends BaseTerrain {
 	{
 		t = start;
 	}
-	
+
 	//Creates a table with 4 corners set to argument values
 	public static double[][] makeTable(double topLeft, double topRight, double botLeft, double botRight, int width)
 	{
@@ -55,7 +55,7 @@ public class DiamondSquare extends BaseTerrain {
 
 	//Starts the iterative loop over the terrain that modifies it
 	//Returns a list of the tables between each diamond-square cycle
-	public ArrayList<byte[][]> dS(int sX, int sY, int width, double startAmp, double ratio)
+	public ArrayList<byte[][]> dS(int sX, int sY, int width, double startAmp, double ratio, boolean recording)
 	{
 		ArrayList<byte[][]> temp = new ArrayList<byte[][]>();
 		int origWidth = width;
@@ -69,15 +69,18 @@ public class DiamondSquare extends BaseTerrain {
 					//System.out.println(c + " " + t.length);
 					//System.out.println("r " + r + " c " + c);
 					diamond(r, c, width, startAmp);
-					byte[][] record = new byte[origWidth][origWidth];
-					for (int nr = 0; nr < origWidth; nr++)
+					if (recording)
 					{
-						for (int nc = 0; nc < origWidth; nc++)
+						byte[][] record = new byte[origWidth][origWidth];
+						for (int nr = 0; nr < origWidth; nr++)
 						{
-							record[nr][nc] = (byte)t[nr][nc];
+							for (int nc = 0; nc < origWidth; nc++)
+							{
+								record[nr][nc] = (byte)t[nr][nc];
+							}
 						}
+						temp.add(record);
 					}
-					temp.add(record);
 				}
 			}
 			if (width > 1)
@@ -157,7 +160,7 @@ public class DiamondSquare extends BaseTerrain {
 	@Override
 	public double[][] generate(double[] args) {
 		//seed(870);
-		dS((int)args[0],(int)args[1],(int)args[2],args[3],args[4]);
+		dS((int)args[0],(int)args[1],(int)args[2],args[3],args[4],false);
 		return terrain;
 	}
 

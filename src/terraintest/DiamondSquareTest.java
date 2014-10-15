@@ -11,7 +11,7 @@ public class DiamondSquareTest extends PApplet {
 	public double[][] temp;
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
-	public int len = 128;
+	public int len = 256;
 	public PShader shader;
 	
 	public void setup()
@@ -131,7 +131,7 @@ public class DiamondSquareTest extends PApplet {
 	public void displayTable(double[][] t)
 	{
 		float len = 20; float con = 10;
-		fill(0); stroke(0);
+		fill(150); stroke(0);
 		/*for (int r = 0; r < t.length; r++)
 		{
 			for (int c = 0; c < t.length; c++)
@@ -165,12 +165,12 @@ public class DiamondSquareTest extends PApplet {
 				}
 			}
 		}*/
-		fill(100);
 		noStroke();
 		//lights();
-		float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
+		//float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
 		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
-		directionalLight(10, 10, 10, -dirX, -1, -dirY);
+		directionalLight(200, 200, 200, dirX, -1, 0);
+		//pointLight(255,255,255,0,500,0);
 		for (int r = 0; r < t.length - 1; r++)
 		{
 			for (int c = 0; c < t[0].length - 1; c++)
@@ -189,6 +189,9 @@ public class DiamondSquareTest extends PApplet {
 		{
 			//System.out.println(-dirX + " " + -dirY);
 		}
+		
+		strokeWeight(5);
+		
 	}
 
 	public static class CubicInterpolator {

@@ -15,9 +15,9 @@ void main() {
   float intensity;
   vec4 color;
   
-  intensity = dot(vertLightDir, vertNormal);
+  intensity = max(0.0, dot(vertLightDir, vertNormal));
 
-  color = vec4(intensity*150/255, intensity*225/255, intensity*255/255, 1);
+  color = vec4(intensity*150/255, intensity*225/255, intensity*255/255, intensity);
   //color = vec4(vec3(intensity), intensity);
   
   gl_FragColor = color * vertColor;  
