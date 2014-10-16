@@ -19,11 +19,12 @@ public class DiamondSquareTest extends PApplet {
 		size(1900,1000,P3D);
 		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
-		temp[temp.length/2][temp[0].length/2] = 300;
+		temp[temp.length/2][temp[0].length/2] = 200;
 		temp[0][temp[0].length/2] = 50;
 		temp[temp.length-1][temp[0].length/2] = 50;
 		temp[temp[0].length/2][0] = 50;
 		temp[temp[0].length/2][temp.length-1] = 50;
+		
 		//temp[temp.length/4][temp[0].length/4] = 175;
 		//temp[temp.length/4][temp[0].length*3/4] = 175;
 		//temp[temp.length*3/4][temp[0].length/4] = 175;
