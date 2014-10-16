@@ -11,7 +11,7 @@ public class DiamondSquareTest extends PApplet {
 	public double[][] temp;
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
-	public int len = 256;
+	public int len = 128;
 	public PShader shader;
 	
 	public void setup()
@@ -19,6 +19,15 @@ public class DiamondSquareTest extends PApplet {
 		size(1900,1000,P3D);
 		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
+		temp[temp.length/2][temp[0].length/2] = 300;
+		temp[0][temp[0].length/2] = 50;
+		temp[temp.length-1][temp[0].length/2] = 50;
+		temp[temp[0].length/2][0] = 50;
+		temp[temp[0].length/2][temp.length-1] = 50;
+		//temp[temp.length/4][temp[0].length/4] = 175;
+		//temp[temp.length/4][temp[0].length*3/4] = 175;
+		//temp[temp.length*3/4][temp[0].length/4] = 175;
+		//temp[temp.length*3/4][temp[0].length*3/4] = 175;
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
 		//displayTables = ds.dS(0, 0, len, 40, 0.7)
@@ -191,13 +200,12 @@ public class DiamondSquareTest extends PApplet {
 			//System.out.println(-dirX + " " + -dirY);
 		}
 		
-		
-		strokeWeight(5);
+		/*strokeWeight(5);
 		pushMatrix();
 		translate(1000,500,1000);
 		fill(255);
 		sphere(50);
-		popMatrix();
+		popMatrix();*/
 	}
 
 	public static class CubicInterpolator {

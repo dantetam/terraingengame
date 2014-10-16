@@ -21,6 +21,17 @@ public class DiamondSquare extends BaseTerrain {
 	public DiamondSquare(double[][] start)
 	{
 		t = start;
+		forceStay = new boolean[start.length][start[0].length];
+		for (int r = 0; r < start.length; r++)
+		{
+			for (int c = 0; c < start[0].length; c++)
+			{
+				if (start[r][c] != 0)
+				{
+					forceStay[r][c] = true;
+				}
+			}
+		}
 	}
 
 	//Creates a table with 4 corners set to argument values
@@ -94,11 +105,13 @@ public class DiamondSquare extends BaseTerrain {
 		return temp;
 	}
 
+	public boolean[][] forceStay;
 	public void diamond(int sX, int sY, int width, double startAmp)
 	{
 		//System.out.println(random);
-		t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
-				startAmp*(random.nextDouble() - 0.5)*2;
+		if (!forceStay[sX + width/2][sY + width/2])
+			t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
+					startAmp*(random.nextDouble() - 0.5)*2;
 		/*System.out.println(t[sX][sY]);
 		System.out.println(t[sX+width][sY]);
 		System.out.println(t[sX][sY+width]);
@@ -121,6 +134,7 @@ public class DiamondSquare extends BaseTerrain {
 
 	public void square(int sX, int sY, int width, double startAmp)
 	{
+		if (forceStay[sX][sY]) return;
 		if (sX - width/2 < 0)
 		{
 			//System.out.println(sX + " 1 " + sY);
