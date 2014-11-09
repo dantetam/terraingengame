@@ -1,3 +1,5 @@
+#define PROCESSING_TEXLIGHT_SHADER
+
 uniform mat4 transform;
 uniform mat3 normalMatrix;
 uniform vec3 lightNormal;
