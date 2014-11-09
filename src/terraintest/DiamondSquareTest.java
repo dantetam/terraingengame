@@ -204,18 +204,18 @@ public class DiamondSquareTest extends PApplet {
 			for (int c = 0; c < t[0].length - 1; c++)
 			{
 				beginShape(TRIANGLES);
-				textureMode(NORMAL);
+				textureMode(IMAGE);
 				texture(textures[r][c]);
 				//println(textures[r][c].pixels.length);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 1);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 1, 1);
+				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 2);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 2, 2);
 				endShape();
 				beginShape(TRIANGLES);
 				texture(textures[r][c]);
-				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 1, 0);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 1, 1);
+				vertex(r*len, (float)t[r][c]*con, c*len, 0, 2);
+				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 2, 0);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 2, 2);
 				endShape();
 			}
 		}
