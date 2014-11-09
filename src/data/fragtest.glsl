@@ -20,5 +20,6 @@ void main() {
   //color = vec4(vec3(pow(intensity, fraction)), 1);
   
   //gl_FragColor = color * vertColor; 
-  gl_FragColor = color * vertColor; 
+  //gl_FragColor = color * vertColor; 
+  gl_FragColor = color;
 }

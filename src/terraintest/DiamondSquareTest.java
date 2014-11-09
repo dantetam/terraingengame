@@ -20,7 +20,7 @@ public class DiamondSquareTest extends PApplet {
 	public void setup()
 	{
 		size(1900,1000,P3D);
-		shader = loadShader("fragtest.glsl", "verttest.glsl");
+		shader = loadShader("fragtest2", "verttest2");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 
 		/*temp[temp.length/2][temp[0].length/2] = 200;
@@ -57,7 +57,7 @@ public class DiamondSquareTest extends PApplet {
 			{
 				double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,3);
 				ds = new DiamondSquare(temp2);
-				ds.seed(System.currentTimeMillis());
+				ds.seed((long)(System.currentTimeMillis()*Math.random()));
 				ds.generate(new double[]{0, 0, 2, 255, 0.6});
 				textures[r][c] = getBlock(temp2);
 			}
@@ -69,7 +69,7 @@ public class DiamondSquareTest extends PApplet {
 	public void draw()
 	{
 		//perspective((float)Math.PI/4,1.9F,0,1000);
-		shader(shader, TRIANGLES);
+		shader(shader);
 		camera(zoom,zoom,zoom,0,400,0,0,-1,0);
 		background(0);
 		displayTable(temp);
@@ -197,7 +197,7 @@ public class DiamondSquareTest extends PApplet {
 		//lights();
 		//float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
 		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
-		directionalLight(20, 20, 20, dirX, -1, 0);
+		directionalLight(200, 200, 200, dirX, -1, 0);
 		//pointLight(255,255,255,0,500,0);
 		for (int r = 0; r < t.length - 1; r++)
 		{
@@ -206,15 +206,16 @@ public class DiamondSquareTest extends PApplet {
 				beginShape(TRIANGLES);
 				textureMode(NORMAL);
 				texture(textures[r][c]);
+				//println(textures[r][c].pixels.length);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 100);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 100, 100);
+				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 1);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 1, 1);
 				endShape();
 				beginShape(TRIANGLES);
 				texture(textures[r][c]);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 100, 0);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 100, 100);
+				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 1, 0);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 1, 1);
 				endShape();
 			}
 		}
@@ -241,11 +242,12 @@ public class DiamondSquareTest extends PApplet {
 			for (int c = 0; c < t[0].length; c++)
 			{
 				gray = (float)t[r][c];
+				//println(gray);
 				if (gray > 255)
 					gray = 255;
 				else if (gray < 0)
 					gray = (float)Math.abs(gray);
-				temp.pixels[r*t[0].length + c] = color(gray,255);
+				temp.pixels[r*t[0].length + c] = color(gray,gray,gray,255);
 			}
 		}
 		temp.updatePixels();
