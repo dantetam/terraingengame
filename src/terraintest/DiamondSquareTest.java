@@ -20,7 +20,8 @@ public class DiamondSquareTest extends PApplet {
 	public void setup()
 	{
 		size(1900,1000,P3D);
-		shader = loadShader("fragtest2", "verttest2");
+		//shader = loadShader("fragtest2", "verttest2");
+		shader = loadShader("pixfragtest", "pixverttest");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 
 		/*temp[temp.length/2][temp[0].length/2] = 200;
