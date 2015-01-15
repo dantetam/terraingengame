@@ -16,6 +16,7 @@ public class DiamondSquareTest extends PApplet {
 	
 	public PShader shader;
 	public PImage[][] textures;
+	public double[][] values;
 	
 	public void setup()
 	{
@@ -40,9 +41,17 @@ public class DiamondSquareTest extends PApplet {
 		ds.seed(870);
 		ds.generate(new double[]{0, 0, len, 40, 0.6});
 
-		Data data = new Data(ds.t,30);
-		data.divIndex(0, 0, len);
+		//Data data = new Data(ds.t,30);
+		//data.divIndex(0, 0, len);
 
+		DiamondSquare dsTemp = new DiamondSquare(DiamondSquare.makeTable(150,150,150,150,len*4+1));
+		//ds.diamond(0, 0, 4);
+		//displayTables = ds.dS(0, 0, len, 40, 0.7)
+		dsTemp.seed(870);
+		values = dsTemp.generate(new double[]{0, 0, len*4, 150, 0.8});
+		//values = dsTemp.terrain;
+		println(values.length);
+		
 		//Data.IslandHelper helper = data.islandHelper();
 		//ArrayList<ArrayList<Data.IslandHelper.Location>> islands = helper.listIslands;
 		//data.divIndex(islands.get(0));
@@ -93,30 +102,20 @@ public class DiamondSquareTest extends PApplet {
 	public void keyPressed()
 	{
 		if (key == 'i')
-		{
 			zoom -= 50;
-		}
 		else if (key == 'o')
-		{
 			zoom += 50;
-		}
 		else if (key == 'u')
-		{
 			stepSpeed++;
-		}
 		else if (key == 'j')
 		{
 			if (stepSpeed > 0)
 				stepSpeed--;
 		}
 		else if (key == 'q')
-		{
 			shader = loadShader("fragtest2", "verttest2");
-		}
 		else if (key == 'e')
-		{
 			shader = loadShader("pixfragtest", "pixverttest");
-		}
 	}
 
 	public void line(float a, float b, float c, float d, float e, float f)
@@ -280,7 +279,7 @@ public class DiamondSquareTest extends PApplet {
 		{
 			for (int c = 0; c < len; c++)
 			{
-				temp[r][c] = Math.random()*255F;
+				temp[r][c] = values[r][c];
 			}
 		}
 		return temp;

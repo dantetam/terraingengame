@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class DiamondSquare extends BaseTerrain {
 
-	public double[][] t;
+	//public double[][] terrain;
 
 	/*public static void main(String[] args)
 	{
@@ -15,12 +15,12 @@ public class DiamondSquare extends BaseTerrain {
 
 		Data data = new Data(ds.t);
 		data.divIndex(0, 0, 16);
-		//System.out.println(ds.t[1][1]);
+		//System.out.println(ds.terrain[1][1]);
 	}*/
 
 	public DiamondSquare(double[][] start)
 	{
-		t = start;
+		terrain = start;
 		forceStay = new boolean[start.length][start[0].length];
 		for (int r = 0; r < start.length; r++)
 		{
@@ -72,9 +72,9 @@ public class DiamondSquare extends BaseTerrain {
 		int origWidth = width;
 		while (true)
 		{
-			for (int r = sX; r <= t.length - 2; r += width)
+			for (int r = sX; r <= terrain.length - 2; r += width)
 			{
-				for (int c = sY; c <= t[0].length - 2; c += width)
+				for (int c = sY; c <= terrain[0].length - 2; c += width)
 				{
 					//System.out.println(r + " " + t.length);
 					//System.out.println(c + " " + t.length);
@@ -87,7 +87,7 @@ public class DiamondSquare extends BaseTerrain {
 						{
 							for (int nc = 0; nc < origWidth; nc++)
 							{
-								record[nr][nc] = (byte)t[nr][nc];
+								record[nr][nc] = (byte)terrain[nr][nc];
 							}
 						}
 						temp.add(record);
@@ -110,12 +110,12 @@ public class DiamondSquare extends BaseTerrain {
 	{
 		//System.out.println(random);
 		if (!forceStay[sX + width/2][sY + width/2])
-			t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
+			terrain[sX + width/2][sY + width/2] = (terrain[sX][sY] + terrain[sX+width][sY] + terrain[sX][sY+width] + terrain[sX+width][sY+width])/4 + 
 					startAmp*(random.nextDouble() - 0.5)*2;
-		/*System.out.println(t[sX][sY]);
-		System.out.println(t[sX+width][sY]);
-		System.out.println(t[sX][sY+width]);
-		System.out.println(t[sX+width][sY+width]);
+		/*System.out.println(terrain[sX][sY]);
+		System.out.println(terrain[sX+width][sY]);
+		System.out.println(terrain[sX][sY+width]);
+		System.out.println(terrain[sX+width][sY+width]);
 		System.out.println("-------");*/
 		//printTable(t);
 		//System.out.println("-------");
@@ -138,29 +138,29 @@ public class DiamondSquare extends BaseTerrain {
 		if (sX - width/2 < 0)
 		{
 			//System.out.println(sX + " 1 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX][sY + width/2] + t[sX + width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX][sY + width/2] + terrain[sX + width/2][sY])/3;
 		}
-		else if (sX + width/2 >= t.length)
+		else if (sX + width/2 >= terrain.length)
 		{
 			//System.out.println(sX + " 2 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX][sY + width/2] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX][sY + width/2] + terrain[sX - width/2][sY])/3;
 		}
 		else if (sY - width/2 < 0)
 		{
 			//System.out.println(sX + " 3 " + sY);
-			t[sX][sY] = (t[sX][sY + width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY + width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/3;
 		}
-		else if (sY + width/2 >= t.length)
+		else if (sY + width/2 >= terrain.length)
 		{
 			//System.out.println(sX + " 4 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/3;
 		}
 		else
 		{
 			//System.out.println(sX + " 5 " + sY);
-			t[sX][sY] = (t[sX][sY + width/2] + t[sX][sY - width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/4;
+			terrain[sX][sY] = (terrain[sX][sY + width/2] + terrain[sX][sY - width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/4;
 		}
-		t[sX][sY] += startAmp*(random.nextDouble() - 0.5)*2;
+		terrain[sX][sY] += startAmp*(random.nextDouble() - 0.5)*2;
 		//printTable(t);
 		//System.out.println("-------");
 	}
