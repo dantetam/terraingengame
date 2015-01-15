@@ -44,11 +44,11 @@ public class DiamondSquareTest extends PApplet {
 		//Data data = new Data(ds.t,30);
 		//data.divIndex(0, 0, len);
 
-		DiamondSquare dsTemp = new DiamondSquare(DiamondSquare.makeTable(150,150,150,150,len*4+1));
+		DiamondSquare dsTemp = new DiamondSquare(DiamondSquare.makeTable(150,150,150,150,len*8+1));
 		//ds.diamond(0, 0, 4);
 		//displayTables = ds.dS(0, 0, len, 40, 0.7)
 		dsTemp.seed(870);
-		values = dsTemp.generate(new double[]{0, 0, len*4, 150, 0.8});
+		values = dsTemp.generate(new double[]{0, 0, len*8, 150, 0.8});
 		//values = dsTemp.terrain;
 		println(values.length);
 		
@@ -61,6 +61,8 @@ public class DiamondSquareTest extends PApplet {
 		//shader.set("fraction", 2);
 		
 		textures = new PImage[(len+1) * 2][len+1];
+		println(":::::" + values.length + " " + textures.length);
+		
 		for (int r = 0; r < textures.length; r++)
 		{
 			for (int c = 0; c < textures[0].length; c++)
@@ -70,7 +72,7 @@ public class DiamondSquareTest extends PApplet {
 				ds = new DiamondSquare(temp2);
 				ds.seed((long)(System.currentTimeMillis()*Math.random()));
 				ds.generate(new double[]{0, 0, len, 255, 0.6});
-				textures[r][c] = getBlock(table(3));
+				textures[r][c] = getBlock(table(r*3, c*3, 3));
 			}
 		}
 	}
@@ -213,7 +215,7 @@ public class DiamondSquareTest extends PApplet {
 		//lights();
 		//float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
 		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
-		directionalLight(200, 200, 200, dirX, -1, 0);
+		//directionalLight(200, 200, 200, dirX, -1, 0);
 		//pointLight(255,255,255,0,500,0);
 		for (int r = 0; r < t.length - 1; r++)
 		{
@@ -272,14 +274,15 @@ public class DiamondSquareTest extends PApplet {
 		return temp;
 	}
 	
-	private double[][] table(int len)
+	private double[][] table(int row, int col, int len)
 	{
 		double[][] temp = new double[len][len];
 		for (int r = 0; r < len; r++)
 		{
 			for (int c = 0; c < len; c++)
 			{
-				temp[r][c] = values[r][c];
+				temp[r][c] = values[row+r][col+c];
+				//println(values[r][c]);
 			}
 		}
 		return temp;
