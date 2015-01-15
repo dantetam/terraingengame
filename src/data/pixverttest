@@ -26,5 +26,5 @@ void main() {
   vertLightDir = -lightNormal;
   vertColor = color;  
   
-  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);        
+  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
 }

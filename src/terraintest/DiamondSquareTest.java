@@ -20,8 +20,8 @@ public class DiamondSquareTest extends PApplet {
 	public void setup()
 	{
 		size(1900,1000,P3D);
-		//shader = loadShader("fragtest2", "verttest2");
-		shader = loadShader("pixfragtest", "pixverttest");
+		shader = loadShader("fragtest2", "verttest2");
+		//shader = loadShader("pixfragtest", "pixverttest");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 
 		/*temp[temp.length/2][temp[0].length/2] = 200;
@@ -51,16 +51,17 @@ public class DiamondSquareTest extends PApplet {
 		strokeWeight(3);
 		//shader.set("fraction", 2);
 		
-		textures = new PImage[len+1][len+1];
+		textures = new PImage[(len+1) * 2][len+1];
 		for (int r = 0; r < textures.length; r++)
 		{
 			for (int c = 0; c < textures[0].length; c++)
 			{
-				double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,3);
+				int len = 3;
+				double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,len+1);
 				ds = new DiamondSquare(temp2);
 				ds.seed((long)(System.currentTimeMillis()*Math.random()));
-				ds.generate(new double[]{0, 0, 2, 255, 0.6});
-				textures[r][c] = getBlock(temp2);
+				ds.generate(new double[]{0, 0, len, 255, 0.6});
+				textures[r][c] = getBlock(table(3));
 			}
 		}
 	}
@@ -80,6 +81,13 @@ public class DiamondSquareTest extends PApplet {
 		{
 			step = 0;
 		}*/
+		super.hint(super.DISABLE_DEPTH_TEST);
+		camera();
+		resetShader();
+		perspective();
+		fill(150,225,255);
+		rect(100 + frameCount % 50,100,100,100);
+		super.hint(super.ENABLE_DEPTH_TEST);
 	}
 
 	public void keyPressed()
@@ -100,6 +108,14 @@ public class DiamondSquareTest extends PApplet {
 		{
 			if (stepSpeed > 0)
 				stepSpeed--;
+		}
+		else if (key == 'q')
+		{
+			shader = loadShader("fragtest2", "verttest2");
+		}
+		else if (key == 'e')
+		{
+			shader = loadShader("pixfragtest", "pixverttest");
 		}
 	}
 
@@ -204,16 +220,17 @@ public class DiamondSquareTest extends PApplet {
 		{
 			for (int c = 0; c < t[0].length - 1; c++)
 			{
-				beginShape(TRIANGLES);
 				textureMode(IMAGE);
-				texture(textures[r][c]);
+				//texture(textures[r][c]);
+				beginShape(TRIANGLES);
+				texture(textures[r*2][c]);
 				//println(textures[r][c].pixels.length);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
 				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 2);
 				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 2, 2);
 				endShape();
 				beginShape(TRIANGLES);
-				texture(textures[r][c]);
+				texture(textures[r*2 + 1][c]);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 2);
 				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 2, 0);
 				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 2, 2);
@@ -255,31 +272,18 @@ public class DiamondSquareTest extends PApplet {
 		popStyle();
 		return temp;
 	}
-
-	public static class CubicInterpolator {
-		public static double getValue(double[] p, double x) {
-			int xi = (int) x;
-			x -= xi;
-			double p0 = p[Math.max(0, xi - 1)];
-			double p1 = p[xi];
-			double p2 = p[Math.min(p.length - 1,xi + 1)];
-			double p3 = p[Math.min(p.length - 1, xi + 2)];
-			return p1 + 0.5 * x * (p2 - p0 + x * (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3 + x * (3.0 * (p1 - p2) + p3 - p0)));
+	
+	private double[][] table(int len)
+	{
+		double[][] temp = new double[len][len];
+		for (int r = 0; r < len; r++)
+		{
+			for (int c = 0; c < len; c++)
+			{
+				temp[r][c] = Math.random()*255F;
+			}
 		}
-	}
-
-	public static class BicubicInterpolator extends CubicInterpolator {
-		private double[] arr = new double[4];
-
-		public double getValue(double[][] p, double x, double y) {
-			int xi = (int) x;
-			x -= xi;
-			arr[0] = getValue(p[Math.max(0, xi - 1)], y);
-			arr[1] = getValue(p[xi], y);
-			arr[2] = getValue(p[Math.min(p.length - 1,xi + 1)], y);
-			arr[3] = getValue(p[Math.min(p.length - 1, xi + 2)], y);
-			return getValue(arr, x+ 1);
-		}
+		return temp;
 	}
 
 }

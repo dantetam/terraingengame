@@ -1,6 +1,6 @@
-/entity
-/render
-/terrain
-/terraintest
-/vector
-/data
+/data/
+/entity/
+/render/
+/terrain/
+/terraintest/
+/vector/
