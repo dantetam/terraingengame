@@ -20,7 +20,7 @@ public class DiamondSquareTest extends PApplet {
 	
 	public void setup()
 	{
-		size(1900,1000,P3D);
+		size(1500,900,P3D);
 		shader = loadShader("fragtest2", "verttest2");
 		//shader = loadShader("pixfragtest", "pixverttest");
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
@@ -48,7 +48,7 @@ public class DiamondSquareTest extends PApplet {
 		//ds.diamond(0, 0, 4);
 		//displayTables = ds.dS(0, 0, len, 40, 0.7)
 		dsTemp.seed(870);
-		values = dsTemp.generate(new double[]{0, 0, len*8, 150, 0.8});
+		values = dsTemp.generate(new double[]{0, 0, len*8, 150, 0.4});
 		//values = dsTemp.terrain;
 		println(values.length);
 		
@@ -56,7 +56,7 @@ public class DiamondSquareTest extends PApplet {
 		//ArrayList<ArrayList<Data.IslandHelper.Location>> islands = helper.listIslands;
 		//data.divIndex(islands.get(0));
 		//System.out.println(ds.t[1][1]);
-		frameRate(40);
+		frameRate(25);
 		strokeWeight(3);
 		//shader.set("fraction", 2);
 		
@@ -67,12 +67,12 @@ public class DiamondSquareTest extends PApplet {
 		{
 			for (int c = 0; c < textures[0].length; c++)
 			{
-				int len = 3;
-				double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,len+1);
+				int len = 9;
+				/*double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,len+1);
 				ds = new DiamondSquare(temp2);
 				ds.seed((long)(System.currentTimeMillis()*Math.random()));
-				ds.generate(new double[]{0, 0, len, 255, 0.6});
-				textures[r][c] = getBlock(table(r*3, c*3, 3));
+				ds.generate(new double[]{0, 0, len, 255, 0.6});*/
+				textures[r][c] = getBlock(table(r*len, c*len, len));
 			}
 		}
 	}
@@ -174,6 +174,7 @@ public class DiamondSquareTest extends PApplet {
 		return temp;
 	}
 
+	public PImage grassTexture = loadImage("Gras-2.jpg");
 	public void displayTable(double[][] t)
 	{
 		float len = 30; float con = 5;
@@ -215,21 +216,25 @@ public class DiamondSquareTest extends PApplet {
 		//lights();
 		//float dirY = ((float)mouseY / (float)height - 0.5F) * 2F;
 		float dirX = ((float)mouseX / (float)width - 0.5F) * 2F;
-		//directionalLight(200, 200, 200, dirX, -1, 0);
+		directionalLight(200, 200, 200, dirX, -1, 0);
 		//pointLight(255,255,255,0,500,0);
+		//beginShape(TRIANGLES);
+		textureMode(IMAGE);
+		//texture(grassTexture);
 		for (int r = 0; r < t.length - 1; r++)
 		{
 			for (int c = 0; c < t[0].length - 1; c++)
 			{
-				textureMode(IMAGE);
+				//textureMode(IMAGE);
 				//texture(textures[r][c]);
 				beginShape(TRIANGLES);
 				texture(textures[r*2][c]);
 				//println(textures[r][c].pixels.length);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 2);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 2, 2);
+				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 5);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 5, 5);
 				endShape();
+				
 				beginShape(TRIANGLES);
 				texture(textures[r*2 + 1][c]);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 2);
@@ -238,6 +243,7 @@ public class DiamondSquareTest extends PApplet {
 				endShape();
 			}
 		}
+		endShape();
 		if (frameCount % 20 == 0)
 		{
 			//System.out.println(-dirX + " " + -dirY);
@@ -251,22 +257,25 @@ public class DiamondSquareTest extends PApplet {
 		popMatrix();*/
 	}
 
-	public PImage getBlock(double[][] t)
+	public PImage getBlock(int[][] t)
 	{
 		PImage temp = createImage(t.length,t[0].length,ARGB);
-		float gray;
+		//float gray;
 		pushStyle();
+		//println("_________________________-");
 		for (int r = 0; r < t.length; r++)
 		{
 			for (int c = 0; c < t[0].length; c++)
 			{
-				gray = (float)t[r][c];
+				/*gray = (float)t[r][c];
 				//println(gray);
 				if (gray > 255)
 					gray = 255;
 				else if (gray < 0)
 					gray = (float)Math.abs(gray);
-				temp.pixels[r*t[0].length + c] = color(gray,gray,gray,255);
+				temp.pixels[r*t[0].length + c] = color(gray,gray,gray,255);*/
+				//println(hex(t[r][c]));
+				temp.pixels[r*t[0].length + c] = t[r][c];
 			}
 		}
 		temp.updatePixels();
@@ -274,17 +283,20 @@ public class DiamondSquareTest extends PApplet {
 		return temp;
 	}
 	
-	private double[][] table(int row, int col, int len)
+	private int[][] table(int row, int col, int len)
 	{
-		double[][] temp = new double[len][len];
+		int[][] temp = new int[len][len];
 		for (int r = 0; r < len; r++)
 		{
-			for (int c = 0; c < len; c++)
+			for (int c = 0; c < len;  c++)
 			{
-				temp[r][c] = values[row+r][col+c];
+				//temp[r][c] = values[row+r][col+c];
+				temp[r][c] = grassTexture.pixels[(row+r)*1024 + (col+c)];
+				//println(hex(temp[r][c]));
 				//println(values[r][c]);
 			}
 		}
+		//println("_-------_");
 		return temp;
 	}
 
