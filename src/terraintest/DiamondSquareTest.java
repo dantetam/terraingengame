@@ -12,7 +12,7 @@ public class DiamondSquareTest extends PApplet {
 	public double[][] temp;
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
-	public int len = 32;
+	public int len = 32, textureLen = 33;
 	
 	public PShader shader;
 	public PImage[][] textures;
@@ -67,12 +67,11 @@ public class DiamondSquareTest extends PApplet {
 		{
 			for (int c = 0; c < textures[0].length; c++)
 			{
-				int len = 9;
 				/*double[][] temp2 = DiamondSquare.makeTable(0,0,0,0,len+1);
 				ds = new DiamondSquare(temp2);
 				ds.seed((long)(System.currentTimeMillis()*Math.random()));
 				ds.generate(new double[]{0, 0, len, 255, 0.6});*/
-				textures[r][c] = getBlock(table(r*len, c*len, len));
+				textures[r][c] = getBlock(table(r*textureLen, c*textureLen, textureLen));
 			}
 		}
 	}
@@ -231,15 +230,15 @@ public class DiamondSquareTest extends PApplet {
 				texture(textures[r*2][c]);
 				//println(textures[r][c].pixels.length);
 				vertex(r*len, (float)t[r][c]*con, c*len, 0, 0);
-				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, 9);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 9, 9);
+				vertex(r*len, (float)t[r][c+1]*con, (c+1)*len, 0, textureLen);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, textureLen, textureLen);
 				endShape();
 				
 				beginShape(TRIANGLES);
 				texture(textures[r*2 + 1][c]);
-				vertex(r*len, (float)t[r][c]*con, c*len, 0, 9);
-				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, 9, 0);
-				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, 9, 9);
+				vertex(r*len, (float)t[r][c]*con, c*len, 0, textureLen);
+				vertex((r+1)*len, (float)t[r+1][c]*con, c*len, textureLen, 0);
+				vertex((r+1)*len, (float)t[r+1][c+1]*con, (c+1)*len, textureLen, textureLen);
 				endShape();
 			}
 		}
@@ -291,7 +290,7 @@ public class DiamondSquareTest extends PApplet {
 			for (int c = 0; c < len;  c++)
 			{
 				//temp[r][c] = values[row+r][col+c];
-				temp[r][c] = grassTexture.pixels[(row+r)*1024 + (col+c)];
+				temp[r][c] = grassTexture.pixels[((row+r)*1024 + (col+c))%1048576];
 				//println(hex(temp[r][c]));
 				//println(values[r][c]);
 			}
